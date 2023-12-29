@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34322.80
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeVerificationSystemApi", "EmployeeVerificationSystemApi\EmployeeVerificationSystemApi.csproj", "{21390850-401B-44D6-8370-FA6E1888CA61}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21390850-401B-44D6-8370-FA6E1888CA61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21390850-401B-44D6-8370-FA6E1888CA61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21390850-401B-44D6-8370-FA6E1888CA61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21390850-401B-44D6-8370-FA6E1888CA61}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5AEB3ACB-CCF9-4CBB-AA65-32F0F0386F66}
+	EndGlobalSection
+EndGlobal
