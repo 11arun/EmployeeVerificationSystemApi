@@ -4,10 +4,11 @@ using EmployeeVerificationSystemApi.Models;
 
 namespace EmployeeVerificationSystemApi.Mappper
 {
-    public class AutoMapper: Profile
+    public class Map: Profile
     {
-        public AutoMapper() {
-            CreateMap<EmployeeInfoModel, EmployeeInfo>();
+        public Map() {
+            CreateMap<EmployeeInfo,EmployeeInfoModel>();
+            CreateMap<EmployeeInfoModel,EmployeeInfo>();
         }
     }
 }
