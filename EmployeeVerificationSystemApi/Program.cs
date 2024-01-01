@@ -3,6 +3,10 @@ using EmployeeVerificationSystem.Models;
 using EmployeeVerificationSystem.Interface;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args); // y
 
@@ -24,8 +28,25 @@ builder.Services.AddSwaggerGen(c => {
     c.SwaggerDoc("V1", new OpenApiInfo { Title = "My Employee Verification System API", Version = "V1" });
 });
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer
+    (options => {
+        options.TokenValidationParameters = new()
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    }
+);
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddControllersWithViews();
+
 // Adding Interface
 builder.Services.AddScoped<IEmployeeInfo, EmployeeInformation>();
+builder.Services.AddScoped<IEmployeeLogin, EmployeeLogin>();
 
 // Another way to Register dependencies
 // builder.Services.AddTransient<IEmployeeInfo, EmployeeInformation>();
