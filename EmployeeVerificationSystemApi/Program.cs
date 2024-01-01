@@ -42,11 +42,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     }
 );
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddControllersWithViews();
+//builder.Services.AddControllersWithViews();
 
 // Adding Interface
 builder.Services.AddScoped<IEmployeeInfo, EmployeeInformation>();
 builder.Services.AddScoped<IEmployeeLogin, EmployeeLogin>();
+builder.Services.AddScoped<ICertification, CertificationBAL>();
 
 // Another way to Register dependencies
 // builder.Services.AddTransient<IEmployeeInfo, EmployeeInformation>();

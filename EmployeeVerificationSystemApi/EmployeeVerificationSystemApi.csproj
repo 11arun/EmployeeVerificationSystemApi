@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <Reference Include="EmployeeVerificationSystem">
-      <HintPath>..\..\EmployeeVerificationSystem\bin\Debug\net7.0\EmployeeVerificationSystem.dll</HintPath>
+      <HintPath>..\..\CapstoneProject\EmployeeVerificationSystem\bin\Debug\net7.0\EmployeeVerificationSystem.dll</HintPath>
     </Reference>
   </ItemGroup>
 

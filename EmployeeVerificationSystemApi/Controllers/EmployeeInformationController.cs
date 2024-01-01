@@ -11,7 +11,7 @@ namespace EmployeeVerificationSystemApi.Controllers
 {
     [EnableCors("EmployeeSystem")]
     [Route("api/EmployeeInformation")]
-    [Authorize]
+   // [Authorize]
     [ApiController]
     public class EmployeeInformationController : ControllerBase
     {
@@ -30,7 +30,8 @@ namespace EmployeeVerificationSystemApi.Controllers
         [Route("GetEmplyeesList")]
         public List<EmployeeInfoModel> GetEmplyeeList()
         {
-            return _mapper.Map<List<EmployeeInfoModel>>(this.dal.GetEmplyeeList());
+            var result = this.dal.GetEmplyeeList();
+            return _mapper.Map<List<EmployeeInfoModel>>(result);
         }
 
 
@@ -38,28 +39,35 @@ namespace EmployeeVerificationSystemApi.Controllers
         [Route("GetEmployeeById")]
         public EmployeeInfo GetEmployeeById(int eid)
         {
-            return this.dal.GetEmployeeById(eid);
+            return dal.GetEmployeeById(eid);
         }
 
         [HttpPost]
         [Route("AddEmplyees")]
-        public bool AddEmplyee(EmployeeInfo emp)
+        public string AddEmplyee(EmployeeInfo emp)
         {
-            return this.dal.AddEmplyee(emp);
+            return dal.AddEmplyee(emp) ? "Employee Added successfully" : "Email/Mobile is already exists !";
         }
 
         [HttpDelete]
         [Route("DeleteEmplyee")]
         public bool DeleteEmplyee(int eid)
         {
-            return this.dal.DeleteEmplyee(eid);
+            return dal.DeleteEmplyee(eid);
         }
 
         [HttpPut]
         [Route("UpdateEmployees")]
         public async Task<int> UpdateEmployee(EmployeeInfo emp)
         {
-            return await this.dal.UpdateEmployee(emp);
+            return await dal.UpdateEmployee(emp);
+        }
+
+        [HttpPost]
+        [Route("ResetPassword")]
+        public string ResetPassword(string email, string password)
+        {
+            return dal.ResetPassword(email, password) ? "Password Reset successfull" : "Email not found";
         }
     }
 }
