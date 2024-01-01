@@ -52,6 +52,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IEmployeeInfo, EmployeeInformation>();
 builder.Services.AddScoped<IEmployeeLogin, EmployeeLogin>();
 builder.Services.AddScoped<IEducational, Educational>();
+builder.Services.AddScoped<IWorkExp, WokExperience>();
 
 // Another way to Register dependencies
 // builder.Services.AddTransient<IEmployeeInfo, EmployeeInformation>();
