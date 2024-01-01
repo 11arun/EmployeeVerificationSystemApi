@@ -51,6 +51,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 // Adding Interface
 builder.Services.AddScoped<IEmployeeInfo, EmployeeInformation>();
 builder.Services.AddScoped<IEmployeeLogin, EmployeeLogin>();
+builder.Services.AddScoped<IEducational, Educational>();
 
 // Another way to Register dependencies
 // builder.Services.AddTransient<IEmployeeInfo, EmployeeInformation>();
