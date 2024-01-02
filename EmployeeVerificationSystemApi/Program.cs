@@ -12,8 +12,20 @@ using System.Reflection;
 using Microsoft.Net.Http.Headers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args); // y
+
+//apply the logger
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+
+
+
 
 // Add services to the container.
 
@@ -54,21 +66,38 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer
-    (options =>
+builder.Services.AddAuthentication(opt => {
+    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options => {
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.TokenValidationParameters = new()
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-        };
-    }
-);
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidAudience = builder.Configuration["JWT:ValidAudience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+    };
+  });
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer
+//    (options =>
+//    {
+//        options.TokenValidationParameters = new()
+//        {
+//            ValidateIssuer = true,
+//            ValidateAudience = true,
+//            ValidateLifetime = true,
+//            ValidateIssuerSigningKey = true,
+//            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+//            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+//        };
+//    }
+//);
+
+
+
 // Configure automapper
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllersWithViews();
@@ -97,10 +126,9 @@ if (app.Environment.IsDevelopment())
 }
 
 // Configure the HTTP request pipeline.
-app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
 app.UseAuthentication();
 app.UseAuthorization(); // y
-
 app.MapControllers(); // y
-
+app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 app.Run(); // y

@@ -45,7 +45,7 @@ namespace EmployeeVerificationSystemApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+       // [Authorize]
         [Route("AddEmplyees")]
         public bool AddEmplyee(EmployeeInfoModel emp)
         {
