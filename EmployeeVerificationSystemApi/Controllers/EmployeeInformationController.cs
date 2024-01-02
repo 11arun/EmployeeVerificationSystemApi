@@ -6,12 +6,13 @@ using EmployeeVerificationSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using EmployeeVerificationSystemApi.Models;
+using System.Collections.Generic;
 
 namespace EmployeeVerificationSystemApi.Controllers
 {
     [EnableCors("EmployeeSystem")]
     [Route("api/EmployeeInformation")]
-   // [Authorize]
+    //[Authorize]
     [ApiController]
     public class EmployeeInformationController : ControllerBase
     {
@@ -23,7 +24,7 @@ namespace EmployeeVerificationSystemApi.Controllers
         {
             this.dal = dal;
             this.context = context;
-            this._mapper = mapper;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -37,16 +38,17 @@ namespace EmployeeVerificationSystemApi.Controllers
 
         [HttpGet]
         [Route("GetEmployeeById")]
-        public EmployeeInfo GetEmployeeById(int eid)
+        public EmployeeInfoModel GetEmployeeById(int eid)
         {
-            return dal.GetEmployeeById(eid);
+            return _mapper.Map<EmployeeInfoModel>(this.dal.GetEmployeeById(eid));
         }
 
         [HttpPost]
         [Route("AddEmplyees")]
-        public string AddEmplyee(EmployeeInfo emp)
+        public bool AddEmplyee(EmployeeInfoModel emp)
         {
-            return dal.AddEmplyee(emp) ? "Employee Added successfully" : "Email/Mobile is already exists !";
+            var empinfo = _mapper.Map<EmployeeInfo>(emp);
+            return this.dal.AddEmplyee(empinfo);
         }
 
         [HttpDelete]
@@ -60,7 +62,8 @@ namespace EmployeeVerificationSystemApi.Controllers
         [Route("UpdateEmployees")]
         public async Task<int> UpdateEmployee(EmployeeInfo emp)
         {
-            return await dal.UpdateEmployee(emp);
+            var empinfo = _mapper.Map<EmployeeInfo>(emp);
+            return await this.dal.UpdateEmployee(empinfo);
         }
 
         [HttpPost]

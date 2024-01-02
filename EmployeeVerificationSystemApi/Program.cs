@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using AutoMapper;
+using EmployeeVerificationSystemApi.Mappper;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args); // y
 
@@ -41,12 +43,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         };
     }
 );
+// Configure automapper
 builder.Services.AddAutoMapper(typeof(Program));
-//builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews();
 
 // Adding Interface
 builder.Services.AddScoped<IEmployeeInfo, EmployeeInformation>();
 builder.Services.AddScoped<IEmployeeLogin, EmployeeLogin>();
+builder.Services.AddScoped<IEducational, Educational>();
+builder.Services.AddScoped<IWorkExp, WokExperience>();
 builder.Services.AddScoped<ICertification, CertificationBAL>();
 
 // Another way to Register dependencies
