@@ -79,6 +79,7 @@ builder.Services.AddScoped<IEmployeeLogin, EmployeeLogin>();
 builder.Services.AddScoped<IEducational, Educational>();
 builder.Services.AddScoped<IWorkExp, WokExperience>();
 builder.Services.AddScoped<ICertification, CertificationBAL>();
+builder.Services.AddScoped<IDocumentsUpload, DocumentsUpload>();
 
 // Another way to Register dependencies
 // builder.Services.AddTransient<IEmployeeInfo, EmployeeInformation>();
