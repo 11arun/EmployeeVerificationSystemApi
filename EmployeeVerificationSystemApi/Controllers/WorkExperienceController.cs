@@ -10,6 +10,7 @@ namespace EmployeeVerificationSystemApi.Controllers
 {
     [EnableCors("EmployeeSystem")]
     [Route("api/WorkExperience")]
+
     [ApiController]
     public class WorkExperienceController : ControllerBase
     {

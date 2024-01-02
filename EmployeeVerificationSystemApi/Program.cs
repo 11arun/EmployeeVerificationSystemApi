@@ -9,6 +9,9 @@ using System.Text;
 using AutoMapper;
 using EmployeeVerificationSystemApi.Mappper;
 using System.Reflection;
+using Microsoft.Net.Http.Headers;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args); // y
 
@@ -26,12 +29,35 @@ builder.Services.AddCors(x => x.AddPolicy("EmployeeSystem", x => x.AllowAnyMetho
 //swagger Documentation
 //Configuring Swagger OPENAPI settings
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => {
+builder.Services.AddSwaggerGen(c =>
+{
     c.SwaggerDoc("V1", new OpenApiInfo { Title = "My Employee Verification System API", Version = "V1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Description = "Bearer Authentication with JWT Token",
+        Type = SecuritySchemeType.Http
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+        {
+            new OpenApiSecurityScheme {
+                Reference = new OpenApiReference {
+                    Id = "Bearer",
+                        Type = ReferenceType.SecurityScheme
+                }
+            },
+            new List < string > ()
+        }
+    });
 });
 
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer
-    (options => {
+    (options =>
+    {
         options.TokenValidationParameters = new()
         {
             ValidateIssuer = true,
@@ -64,13 +90,15 @@ var app = builder.Build(); // y
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c => {
+    app.UseSwaggerUI(c =>
+    {
         c.SwaggerEndpoint("/swagger/V1/swagger.json", "My Employee Verification System API V1");
     });
 }
 
 // Configure the HTTP request pipeline.
 app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+app.UseAuthentication();
 app.UseAuthorization(); // y
 
 app.MapControllers(); // y

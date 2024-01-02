@@ -11,8 +11,7 @@ using System.Collections.Generic;
 namespace EmployeeVerificationSystemApi.Controllers
 {
     [EnableCors("EmployeeSystem")]
-    [Route("api/EmployeeInformation")]
-    //[Authorize]
+    [Route("api/EmployeeInformation")] 
     [ApiController]
     public class EmployeeInformationController : ControllerBase
     {
@@ -28,6 +27,7 @@ namespace EmployeeVerificationSystemApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("GetEmplyeesList")]
         public List<EmployeeInfoModel> GetEmplyeeList()
         {
@@ -37,6 +37,7 @@ namespace EmployeeVerificationSystemApi.Controllers
 
 
         [HttpGet]
+        [Authorize]
         [Route("GetEmployeeById")]
         public EmployeeInfoModel GetEmployeeById(int eid)
         {
@@ -44,6 +45,7 @@ namespace EmployeeVerificationSystemApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [Route("AddEmplyees")]
         public bool AddEmplyee(EmployeeInfoModel emp)
         {
@@ -52,6 +54,7 @@ namespace EmployeeVerificationSystemApi.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         [Route("DeleteEmplyee")]
         public bool DeleteEmplyee(int eid)
         {
@@ -59,6 +62,7 @@ namespace EmployeeVerificationSystemApi.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [Route("UpdateEmployees")]
         public async Task<int> UpdateEmployee(EmployeeInfo emp)
         {

@@ -1,4 +1,6 @@
-﻿using EmployeeVerificationSystem.Interface;
+﻿using AutoMapper;
+using EmployeeVerificationSystem.Interface;
+using EmployeeVerificationSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,6 +14,15 @@ namespace EmployeeVerificationSystemApi.Controllers
     {
         readonly IEmployeeLogin dal;
         private IConfiguration configuration;
+        readonly EmployeeContext _context;
+        IMapper _mapper;
+        public LoginController(IMapper mapper, IEmployeeLogin dal, IConfiguration _configuration, EmployeeContext context)
+        {
+            this.dal = dal;
+            this._context = context;
+            _mapper = mapper;
+            configuration= _configuration;
+        }
         [HttpPost]
         [Route("EmployeLogin")]
         public IActionResult Login(string Email,string Password)
